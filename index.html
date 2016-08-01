@@ -61,6 +61,91 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-iOS-传递链-响应链" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/01/iOS-传递链-响应链/" class="article-date">
+  <time datetime="2016-08-01T06:05:22.000Z" itemprop="datePublished">2016-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/01/iOS-传递链-响应链/">事件的传递和响应链</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##事件的传递和响应分两个链：</p>
+<ul>
+<li>传递链：由系统向离用户最近的view传递。UIKit –&gt; active app’s event queue –&gt; window –&gt; root view –&gt;……–&gt;lowest view</li>
+<li>响应链：由离用户最近的view向系统传递。initial view –&gt; super view –&gt; …..–&gt; view controller –&gt; window –&gt; Application</li>
+</ul>
+<p><code>事件通过特殊的路径传递直到被传递到一个可以处理该事件的对象。首先，单例的UIApplication对象从顶层的队列中获取事件，然后分发。典型的，它将事件发送到App的关键window（key window）对象，window则为了处理该事件而发送它到初始化对象（initial object），这个初始化对像依靠事件类型。</code></p>
+<ul>
+<li>触摸事件（Touch events）。对于触摸事件，window对象首先会尝试将事件传递给事件发生的view。这个view就是所谓的hit-test view。寻找hit-test view的方法叫 hit-testing,具体描述可见“<a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html#//apple_ref/doc/uid/TP40009541-CH4-SW4">Hit-Testing Returns the View Where a Touch Occurred.</a>”。</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2016/08/01/iOS-传递链-响应链/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/08/01/iOS-传递链-响应链/" data-id="cirbmzhi30001o9px2f1rv5p9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-第一篇文章" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/01/第一篇文章/" class="article-date">
+  <time datetime="2016-08-01T06:05:22.000Z" itemprop="datePublished">2016-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/01/第一篇文章/">第一篇文章</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/08/01/第一篇文章/" data-id="cirbmzhi80002o9px59nxllx5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/08/01/hello-world/" class="article-date">
@@ -96,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/08/01/hello-world/" data-id="cirbijyjz0000jepx9c82iwn5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/08/01/hello-world/" data-id="cirbmzhhw0000o9pxdiv0ahil" class="article-share-link">Share</a>
       
       
     </footer>
@@ -134,6 +219,14 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/08/01/iOS-传递链-响应链/">事件的传递和响应链</a>
+          </li>
+        
+          <li>
+            <a href="/2016/08/01/第一篇文章/">第一篇文章</a>
+          </li>
         
           <li>
             <a href="/2016/08/01/hello-world/">Hello World</a>
