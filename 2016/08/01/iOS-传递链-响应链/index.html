@@ -17,7 +17,7 @@
 
 传递链：由系统向离用户最近的view传递。UIKit –&amp;gt; active app’s event queue –&amp;gt; window –&amp;gt; root view –&amp;gt;……–&amp;gt;lowest view
 响应链：由离用户最近的view向系统传递。initial view –&amp;gt; super view –&amp;gt; …..–&amp;gt; view c">
-<meta property="og:updated_time" content="2016-08-01T06:13:00.000Z">
+<meta property="og:updated_time" content="2016-08-04T08:33:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS-传递链-响应链">
 <meta name="twitter:description" content="##事件的传递和响应分两个链：
@@ -70,9 +70,9 @@ var _hmt = _hmt || [];
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -129,10 +129,30 @@ var _hmt = _hmt || [];
 <p>上面的代码例子是对SVProfressHUD的修改，为了让该控件在展示hud的时候依然能够点击返回按钮返回上级页面，_maskView</p>
 <p>##2.响应链<br>从顶层往下传递，如果当前view不响应，那么则传递到他的nextResponder,直到有对象响应该事件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event</div><div class="line">&#123;</div><div class="line">    UIResponder * next = [self nextResponder];</div><div class="line">    NSMutableString * prefix = @&quot;&quot;.mutableCopy;</div><div class="line"> </div><div class="line">    while (next != nil) &#123;</div><div class="line">        NSLog(@&quot;%@%@&quot;, prefix, [next class]);</div><div class="line">        [prefix appendString: @&quot;--&quot;];</div><div class="line">        next = [next nextResponder];</div><div class="line">    &#125;    </div><div class="line">&#125;</div><div class="line"></div><div class="line">// log</div><div class="line">AView</div><div class="line">--UIView</div><div class="line">----ViewController</div><div class="line">------UIWindow</div><div class="line">--------UIApplication</div><div class="line">----------AppDelegate</div></pre></td></tr></table></figure>
+<p>文字<br>1.判断当前控件userInteractionEnabled、hidden、alpha这三个属性的值<br>2.调用 pointInside: withEvent: 方法<br>3.从后向前遍历子控件，并调用子控件的 hitTest: withEvent: 和 pointInside: withEvent: 方法<br>代码</p>
+<ul>
+<li><p>(UIView <em>)hitTest:(CGPoint)point withEvent:(UIEvent </em>)event {<br>if (self.userInteractionEnabled == NO || self.hidden == YES || self.alpha &lt;= 0.01) {</p>
+<pre><code>return nil;
+</code></pre><p>}</p>
+<p>if ([self pointInside:point withEvent:event] == NO) {</p>
+<pre><code>return nil;
+</code></pre><p>}</p>
+<p>int count = (int)self.subviews.count - 1;<br>for (int i = count; i &gt;= 0 ; i–) {</p>
+<pre><code>UIView *view = self.subviews[i];
+CGPoint p = [view convertPoint:point fromView:self];
+if ([view pointInside:p withEvent:event]) {
+    return [view hitTest:p withEvent:event];
+    break;
+}
+</code></pre><p>}</p>
+<p>return self;<br>}<br>先判断当前控件能否接收事件，如果不能返回空，如果能再判断当前点能否响应事件，如果不能返回空，如果能从后向前遍历子控件，判断当前子控件当前点能否响应事件，如果不能继续判断下一个子控件直到子控件遍历完成（如果所有子控件都不满足条件，那么当前控件就是响应这个事件最合适的控件），如果能那么返回当前子控件的hitTest方法并跳出循环，进入子控件hitTest重复当前操作。</p>
+</li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/08/01/iOS-传递链-响应链/" data-id="cireije3l0000s4pxijxe9889" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/08/01/iOS-传递链-响应链/" data-id="cirg2h9nn0000u8pxtwm6v5ar" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -166,7 +186,7 @@ var _hmt = _hmt || [];
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
         
@@ -187,7 +207,7 @@ var _hmt = _hmt || [];
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 Luo chao<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
